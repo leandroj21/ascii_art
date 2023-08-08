@@ -1,11 +1,20 @@
 from PIL import Image
 
 class ImageASCIIArt:
-    def __init__(self, path) -> None:
+    def __init__(self, path, resolution_multiplier = 3, fix_resolution = 4) -> None:
         self.path = path
         self.width = 0
         self.height = 0
         self.pixels = None
+
+        # The characters ordered from thinnest to boldest
+        self.mapping_string = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+
+        # The amount of characters per pixel
+        self.resolution_multiplier = resolution_multiplier
+
+        # A power of 2 that makes the image clearer at printing
+        self.fix_resolution = fix_resolution
 
         self._load_image()
     
@@ -18,10 +27,15 @@ class ImageASCIIArt:
             image.close()
         except:
             raise Exception("Cannot read the image")
-    
+
     def print_ascii_art(self):
-        pass
+        for i in range(len(self.pixels)):
+            for j in range(len(self.pixels[0])):
+                pixel_grayscale_value = (self.pixels[i][j][0] + self.pixels[i][j][1] + self.pixels[i][j][2]) // 3
+                print(self.mapping_string[(pixel_grayscale_value // self.fix_resolution) % len(self.mapping_string)] * self.resolution_multiplier, end="")
+            print("\n", end="")
+
 
 if __name__ == "__main__":
     image = ImageASCIIArt("path")
-    print(image.pixels[0])
+    image.print_ascii_art()
