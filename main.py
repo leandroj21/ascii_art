@@ -1,7 +1,7 @@
 from PIL import Image
 
 class ImageASCIIArt:
-    def __init__(self, path, resolution_multiplier = 3, fix_resolution = 4) -> None:
+    def __init__(self, path, resolution_multiplier = 3, fix_resolution = 4, thumbnail_percentage = 1) -> None:
         self.path = path
         self.width = 0
         self.height = 0
@@ -16,13 +16,17 @@ class ImageASCIIArt:
         # A power of 2 that makes the image clearer at printing
         self.fix_resolution = fix_resolution
 
+        # For reducing the image size
+        self.thumbnail_percentage = thumbnail_percentage
+
         self._load_image()
     
     def _load_image(self):
         try:
             image = Image.open(self.path)
-            self.pixels = list(image.getdata())
+            image.thumbnail((image.size[0] * self.thumbnail_percentage, image.size[1] * self.thumbnail_percentage))
             self.width, self.height = image.size
+            self.pixels = list(image.getdata())
             self.pixels = [self.pixels[i * self.width: (i + 1) * self.width] for i in range(self.height)]
             image.close()
         except:
