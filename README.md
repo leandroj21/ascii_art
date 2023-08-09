@@ -47,12 +47,16 @@ options:
 ```
 ## Examples
 With the test image:
+
 [![Test 1](/assets/test1.jpg "Snow peak mountains wolf vector, by Mollyroselee")](https://pixabay.com/illustrations/mountains-snow-wolf-moon-nature-8149677/)
+
 Running ``python .\main.py .\assets\test1.jpg -T 0.5`` we get:
 ![Test 1 result without color](/assets/test1_result_without_color.png "Result test 1 without color")
+
 If we want to print it with color, we can use ``python .\main.py .\assets\test1.jpg -T 0.5 -c`` to get:
 ![Test 1 result with color](/assets/test1_result_with_color.png "Result test 1 with color")
 
+**Note:** you may have to zoom out your console to view the ASCII art.
 ## Credits
 
 This project was inspired by [Robert Heaton's blogpost](https://robertheaton.com/2018/06/12/programming-projects-for-advanced-beginners-ascii-art/).
