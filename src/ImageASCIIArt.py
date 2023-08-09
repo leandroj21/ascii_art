@@ -26,11 +26,11 @@ class ImageASCIIArt:
     -------
     _load_image()
         Loads the image into the class ImageASCIIArt
-    print_ascii_art(resolution_multiplier = 3, fix_resolution = 4)
+    print_ascii_art(resolution_multiplier=3, fix_resolution=4, invert_brightness=False)
         Print the image using ASCII characters
     """
 
-    def __init__(self, path, thumbnail_percentage = 1.0) -> None:
+    def __init__(self, path, thumbnail_percentage=1.0) -> None:
         """
         Parameters
         ----------
@@ -63,7 +63,7 @@ class ImageASCIIArt:
         except:
             raise Exception("Cannot read the image")
 
-    def print_ascii_art(self, resolution_multiplier = 3, fix_resolution = 4):
+    def print_ascii_art(self, resolution_multiplier=3, fix_resolution=4, invert_brightness=False):
         """Print the image using ASCII characters
 
         Parameters
@@ -72,10 +72,18 @@ class ImageASCIIArt:
             The amount of characters per pixel (default is 3)
         fix_resolution : int, optional
             A power of 2 in [1, 128] that makes the image clearer at printing (default is 4)
+        invert_brightness : bool, optional
+            Invert the brightnesses of the pixels (default is False)
         """
 
         for i in range(len(self.pixels)):
             for j in range(len(self.pixels[0])):
                 pixel_grayscale_value = (self.pixels[i][j][0] + self.pixels[i][j][1] + self.pixels[i][j][2]) // 3
-                print(self.mapping_string[(pixel_grayscale_value // fix_resolution) % len(self.mapping_string)] * resolution_multiplier, end="")
+
+                if invert_brightness:
+                    index_mapping = ((abs(pixel_grayscale_value - 255)) // fix_resolution) % len(self.mapping_string)
+                else:
+                    index_mapping = (pixel_grayscale_value // fix_resolution) % len(self.mapping_string)
+                
+                print(self.mapping_string[index_mapping] * resolution_multiplier, end="")
             print("\n", end="")
